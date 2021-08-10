@@ -5,5 +5,5 @@ const router=express.Router()
  router.get("/",homepageFunctions.getAllTodos)
  router.post("/",homepageFunctions.createTodos)    
 
-const name="shaurya"
+
 module.exports={router}
