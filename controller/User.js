@@ -40,7 +40,7 @@ const salt =  bcrypt.genSaltSync(saltRounds);
         try {
             console.log(req.cookies )
             var decoded = jwt.verify(req.cookies.Login, process.env.SECRET);
-            res.json({token:req.cookies.Login ,success:true})
+            res.json({token:req.cookies.Login ,success:true ,id:decoded.id})
         } catch (error) {
             return res.json({success:false , message:error})
         }
