@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UserFunctions={
-    signupUser: async(req,res)=>{
+    signupUser: async(req,res,next)=>{
         const { first_name ,last_name ,  username ,  password , user_type} = req.body
        
         try {
@@ -33,7 +33,7 @@ const salt =  bcrypt.genSaltSync(saltRounds);
       
     },
 
-    checkLogin: async(req,res)=>{
+    checkLogin: async(req,res,next)=>{
         if(!req.cookies.Login){
             return res.json({success:false , message:"NOT LOGGED IN"})
         }
@@ -47,7 +47,7 @@ const salt =  bcrypt.genSaltSync(saltRounds);
        
     },
 
-    logout:async(req,res)=>{
+    logout:async(req,res,next)=>{
         if(!req.cookies.Login || req.cookies.Login==''){
             return res.json({success:true , message:"NOT LOGGED IN"})
         }
@@ -64,7 +64,7 @@ const salt =  bcrypt.genSaltSync(saltRounds);
     },
 
 
-    login : async(req,res)=>{
+    login : async(req,res,next)=>{
          
         const {username , password} = req.body
      
