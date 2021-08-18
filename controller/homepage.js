@@ -6,7 +6,7 @@ const TodoModel = require('../Models/TodoModel');
 
 
 const homepageFunctions={
-    getAllTodos: async(req,res)=>{
+    getAllTodos: async(req,res,next)=>{
         // goes to the database and finds all the matching things 
         try {
             const result = await TodoModel.find();
