@@ -22,6 +22,10 @@
             <h3>Enter Your Details</h3>
         </div>
         <form onsubmit="return mySubmitFunction(event)">
+          <div class="mb-3">
+            <label for="userName" class="form-label">Username</label>
+            <input type="text" class="form-control" id="userName">
+          </div>
             <div class="mb-3">
               <label for="firstName" class="form-label">Firstname</label>
               <input type="text" class="form-control" id="firstName">
@@ -33,7 +37,7 @@
             <div class="mb-3">
                 <label for="userType" class="form-label">Usertype</label>
                 <div class="dropdown">
-                    <select class="btn btn-secondary dropdown-toggle" aria-labelledby="dropdownMenuButton1">
+                    <select class="btn btn-secondary dropdown-toggle" aria-labelledby="dropdownMenuButton1" id="usertype">
                       <option class="dropdown-item" value="Normal">Normal</option>
                       <option class="dropdown-item" value="Technical">Technical</option>
                       <option class="dropdown-item" value="Super">Super</option>
