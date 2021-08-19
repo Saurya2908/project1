@@ -6,19 +6,26 @@ const  cookieParser = require( "cookie-parser")
 const db= require('./connections/db')
 const mongoose=require('mongoose')
 const app=express()
-var cors = require('cors')
-app.use(cors(corsOptions))
+
 
 const PORT=process.env.PORT|5000
 const {router:homepageRoutes}=require("./routes/homepage")
 const {router:UserRoutes}=require("./routes/userRoute")
 const {router:FileRoutes}=require("./routes/fileRoutes")
 // App Defaults..
-var corsOptions = {
-    origin: 'http://localhost:5501',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+const cors = require('cors');
+const whitelist = ['http://localhost:5500', 'http://127.0.0.1:5500','http://example2.com'];
+const corsOptions = {
+  credentials: true, // This is important.
+  origin: (origin, callback) => {
+    if(whitelist.includes(origin))
+      return callback(null, true)
 
+      callback(new Error('Not allowed by CORS'));
+  }
+}
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
