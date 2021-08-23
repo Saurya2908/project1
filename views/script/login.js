@@ -16,7 +16,7 @@ const mySubmitFunction = async (e) => {
     if(res.data.user_type === 'normal'){
         document.location.href='/normalUser.html'
     }else if(res.data.user_type === 'technical'){
-        document.location.href='/datagovernanceuser.html'
+        document.location.href='/technicaluser.html'
     }else if(res.data.user_type === 'super')
     {
         document.location.href='/superuser.html'
