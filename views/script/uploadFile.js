@@ -40,9 +40,16 @@ const getAllFilesUploaded = async () =>{
         if (res.data.success){
             res.data.data.forEach((file, i)=>{
                 console.log(file)
-                let str =  `<tr><td>${file.filename} <button onClick=`+`openSheet("${file.path}")`+` class="btn btn-secondary" style="float: right; margin-left: 5px">Open</button> <button type="submit" class="btn btn-danger" style="float: right; margin-left: 5px;">Delete</button> <a href = '${file.path}' download ><button  class="btn btn-info" style="float: right;">Download</button></a> </td></tr>`
+                if(file.approved){
+                let str =  `<tr><td>${file.filename} <button class="btn btn-success" style="float: right; margin-left: 5px">Approved</button> <button type="submit" class="btn btn-danger" style="float: right; margin-left: 5px;">Delete</button> <a href = '${file.path}' download ><button  class="btn btn-info" style="float: right;">Download</button></a> </td></tr>`
                 console.log(str)
                 normalUserTable.innerHTML +=str
+                }
+                else{
+                    let str =  `<tr><td>${file.filename} <button class="btn btn-secondary" style="float: right; margin-left: 5px">Pending for approval</button> <button type="submit" class="btn btn-danger" style="float: right; margin-left: 5px;">Delete</button> <a href = '${file.path}' download ><button  class="btn btn-info" style="float: right;">Download</button></a> </td></tr>`
+                    console.log(str)
+                    normalUserTable.innerHTML +=str   
+                }
         })
     
     
