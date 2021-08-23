@@ -106,11 +106,11 @@ const UserFunctions = {
 
 
         try {
-            let data = await UserModel.findAll({ user_type: 'normal'});
-            return res.status(200).json({ success: true, msg: "ok", user_type: data})
+            let data = await UserModel.find({user_type:'normal'}).select('-password')
+            return res.status(200).json({ success: true, msg: "ok", data})
 
         } catch (error) {
-            return res.status(404).json({ success: false, msg: error })
+            return res.status(404).json({ success: false, error })
 
         }
     },
