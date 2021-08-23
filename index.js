@@ -14,16 +14,17 @@ const {router:UserRoutes}=require("./routes/userRoute")
 const {router:FileRoutes}=require("./routes/fileRoutes")
 // App Defaults..
 const cors = require('cors');
-const whitelist = ['http://localhost:5500', 'http://127.0.0.1:5500','http://example2.com'];
+const whitelist = ['http://localhost:5500','http://localhost:5501', 'http://127.0.0.1:5500','http://example2.com'];
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
     if(whitelist.includes(origin))
       return callback(null, true)
-
-      callback(new Error('Not allowed by CORS'));
+    
+      callback(new Error(`Not allowed by CORS ${origin}`));
   }
 }
+
 
 app.use(cors(corsOptions));
 app.use(cookieParser());
