@@ -8,8 +8,9 @@ const getUserID = async () => {
             withCredentials: true,
         })
 
-        if (rchk.data.success){
+       if (rchk.data.success){
         loggedInUserID = (rchk.data.id)
+        getAllFilesUploaded()
         }
         else{
             document.location.href='/login.html'
@@ -20,6 +21,88 @@ const getUserID = async () => {
 
 }
 getUserID()
+
+
+
+
+
+
+
+const getAllFilesUploaded = async () =>{
+    let normalUserTable = document.getElementById('normalUserTable')
+    try {
+        
+   
+    const res = await axios.get(`http://localhost:5000/api/file/getfilesbyuser/${loggedInUserID}`, {
+        withCredentials: true
+    })
+
+        if (res.data.success){
+            res.data.data.forEach((file, i)=>{
+                console.log(file)
+                let str =  `<tr><td>${file.filename} <button onClick=`+`openSheet("${file.path}")`+` class="btn btn-secondary" style="float: right; margin-left: 5px">Open</button> <button type="submit" class="btn btn-danger" style="float: right; margin-left: 5px;">Delete</button> <a href = '${file.path}' download ><button  class="btn btn-info" style="float: right;">Download</button></a> </td></tr>`
+                console.log(str)
+                normalUserTable.innerHTML +=str
+        })
+    
+    
+    }
+
+
+    console.log(res.data)
+
+}catch(error){
+    console.log({error})
+    alert('ERROR IN GETTING UPLOADED FILES')
+}
+}
+
+
+
+
+
+const openSheet = async (path) =>{
+   console.log(path)
+
+
+
+   const res = await axios.get(path, {
+        withCredentials: false,
+        
+        Headers:{
+            'Access-Control-Allow-Origin': '*'
+        }
+    })
+
+
+
+
+  
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(res);
+    reader.onload = function(e) {
+            var data = new Uint8Array(reader.result);
+            var wb = XLSX.read(data,{type:'array'});
+            var htmlstr = XLSX.write(wb,{sheet:"sheet no1", type:'binary',bookType:'html'});
+            $('#wrapper')[0].innerHTML += htmlstr;
+    }
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
 
 function initialize() {
     // [START storage_initialize]
@@ -71,7 +154,8 @@ function storageOnComplete(file) {
                     withCredentials: true,
                 })
 
-                mySubmitFunction(file.name, url, file.type, rchk.data.id)
+                await mySubmitFunction(file.name, url, file.type, rchk.data.id)
+               document.location.reload()
             });
         }).catch((error) => {
             alert('Upload failed', error);
@@ -113,8 +197,9 @@ const UploadButtonCLick = () => {
 
 const fileUploader = (e) => {
     file = e.target.files[0]
-    console.log(e.target.files[0])
-    storageOnComplete(file)
+    console.log(file)
+    // console.log(e.target.files[0])
+    // storageOnComplete(file)
 }
 
 
