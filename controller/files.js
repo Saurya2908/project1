@@ -33,6 +33,21 @@ const FileFunctions={
     
     },
 
+    updateFilesByUser: async(req,res)=>{
+        const uid = req.params.userid 
+    try {
+        const result = await FileModel.find({uploader:uid})
+        return  res.json({data:result, success:true })
+
+
+    } catch (error) {
+        return  res.status(404).json({ success:false , msg:error })
+            
+    }
+    
+    },
+
+
 
     createTodos: async(req,res)=>{
         // Data in post requests are saved in Body of the Request    '' req.body '' 

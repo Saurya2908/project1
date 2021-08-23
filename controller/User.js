@@ -99,7 +99,23 @@ const UserFunctions = {
             return res.status(404).json({ success: false, msg: error })
 
         }
-    }
+    },
+    getAllNormalUsers: async (req, res, next) => {
+
+        
+
+
+        try {
+            let data = await UserModel.findAll({ user_type: 'normal'});
+            return res.status(200).json({ success: true, msg: "ok", user_type: data})
+
+        } catch (error) {
+            return res.status(404).json({ success: false, msg: error })
+
+        }
+    },
+
+
 }
 
 
