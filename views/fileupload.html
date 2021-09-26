@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/82bcca30fb.js" crossorigin="anonymous"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="login.html"><i class="fas fa-server"></i>Data Drawer</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+                  </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <button class="nav-link active" aria-current="page">Logout</button>
+                  </li>
+                </ul>
+            </div>
+          </nav>
+        <div class="container p-2">
+            <div class="p-3 mb-3 bg-secondary text-white">
+                <h1>File Upload</h1>
+                <h3>Enter feed details</h3>
+            </div>
+            <div class="container p-5">
+                <div class="mb-3">
+                    <label for="sourceType" class="form-label">Source</label>
+                          <div class="dropdown">
+                              <select class="btn btn-secondary dropdown-toggle" aria-labelledby="dropdownMenuButton1" id="source">
+                                <option>Infosys</option>
+                                <option>TCS</option>
+                                <option>Cognizant</option>
+                              </select>
+                          </div>
+                  </div>
+                <form onsubmit="prevent(event)">
+                    <div class="mb-3">
+                      <label for="tablename" class="form-label">Table Name</label>
+                      <input type="text" class="form-control" id="tablename" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="NumberOfColumns" class="form-label">No. of columns</label>
+                      <input type="text" class="form-control" id="NumberOfColumns">
+                    </div>
+                    <div class="mb-3">
+                        <label for="query" class="form-label">Query</label>
+                        <input type="text" class="form-control" id="query">
+                      </div>
+                      <div class="mb-3">
+                        <label for="DataLakeLocation" class="form-label">Data Lake Location</label>
+                        <input type="text" class="form-control" id="DataLakeLocation">
+                      </div>
+                      <button type="submit" class="btn btn-primary" onclick="UploadButtonCLick()" >file upload</button>
+                      <input type="file" id="NormalUserFileUpload" style="display:  none;" onchange="fileUploader(event)"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet , application/vnd.ms-excel, .csv"></input>
+                  </form>
+                  </div>
+                </div>
+
+            </body>
+            <script src="script/uploader.js"></script>
+        </html>

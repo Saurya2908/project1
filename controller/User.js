@@ -43,7 +43,7 @@ const UserFunctions = {
         try {
             console.log(req.cookies)
             var decoded = jwt.verify(req.cookies.Login, process.env.SECRET);
-            res.json({ token: req.cookies.Login, success: true, id: decoded.id })
+            res.json({ token: req.cookies.Login, success: true, id: decoded.id, usertype: decoded.user_type })
         } catch (error) {
             return res.json({ success: false, message: error })
         }
@@ -100,6 +100,36 @@ const UserFunctions = {
 
         }
     },
+    getAllNormalUsers: async (req, res, next) => {
+
+        
+
+
+        try {
+            let data = await UserModel.find({user_type:'normal'}).select('-password')
+            return res.status(200).json({ success: true, msg: "ok", data})
+
+        } catch (error) {
+            return res.status(404).json({ success: false, error })
+
+        }
+    },
+
+    getAllSuperUsers: async (req, res, next) => {
+
+        
+
+
+        try {
+            let data = await UserModel.find({user_type:'super'}).select('-password')
+            return res.status(200).json({ success: true, msg: "ok", data})
+
+        } catch (error) {
+            return res.status(404).json({ success: false, error })
+
+        }
+    },
+
     getAllNormalUsers: async (req, res, next) => {
 
         

@@ -15,6 +15,26 @@ const FileSchema = new mongoose.Schema({
         required: true,
 
     },
+    noOfColumns: {
+      type: String,
+      required: true,
+
+  },
+  tableName: {
+    type: String,
+    required: true,
+
+},
+  query: {
+  type: String,
+  required: true,
+
+  },
+  dataLakeLocation: {
+    type: String,
+    required: true,
+  
+    },
     approved:{
         type: Boolean,
         required: true,

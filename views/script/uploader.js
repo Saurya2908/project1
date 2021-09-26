@@ -1,3 +1,12 @@
+noOfColumns = document.getElementById('NumberOfColumns').value
+tableName = document.getElementById('tablename').value
+query = document.getElementById('query').value
+dataLakeLocation = document.getElementById('DataLakeLocation').value
+
+
+
+
+
 
 loggedInUserID = ''
 
@@ -10,7 +19,6 @@ const getUserID = async () => {
 
        if (rchk.data.success){
         loggedInUserID = (rchk.data.id)
-        getAllFilesUploaded()
         }
         else{
             document.location.href='/login.html'
@@ -40,96 +48,38 @@ const checkLogin=async() =>{
 }
 checkLogin()
 
-
-
-
-
-
-
-const getAllFilesUploaded = async () =>{
-    let normalUserTable = document.getElementById('normalUserTable')
-    try {
-        
-   
-    const res = await axios.get(`http://localhost:5000/api/file/getfilesbyuser/${loggedInUserID}`, {
-        withCredentials: true
-    })
-
-        if (res.data.success){
-            res.data.data.forEach((file, i)=>{
-                console.log(file)
-                if(file.approved){
-                let str =  `<tr><td>${file.filename} <button class="btn btn-success" style="float: right; margin-left: 5px">Approved</button> <button type="submit" class="btn btn-danger" style="float: right; margin-left: 5px;">Delete</button> <a href = '${file.path}' download ><button  class="btn btn-info" style="float: right;">Download</button></a> </td></tr>`
-                console.log(str)
-                normalUserTable.innerHTML +=str
-                }
-                else{
-                    let str =  `<tr><td>${file.filename} <button class="btn btn-secondary" style="float: right; margin-left: 5px">Pending for approval</button> <button type="submit" class="btn btn-danger" style="float: right; margin-left: 5px;">Delete</button> <a href = '${file.path}' download ><button  class="btn btn-info" style="float: right;">Download</button></a> </td></tr>`
-                    console.log(str)
-                    normalUserTable.innerHTML +=str   
-                }
-        })
-    
-    
-    }
-
-
-    console.log(res.data)
-
-}catch(error){
-    console.log({error})
-    alert('ERROR IN GETTING UPLOADED FILES')
-}
-}
-
-
-
-
-
 const openSheet = async (path) =>{
-   console.log(path)
+    console.log(path)
+ 
+ 
+ 
+    const res = await axios.get(path, {
+         withCredentials: false,
+         
+         Headers:{
+             'Access-Control-Allow-Origin': '*'
+         }
+     })
+
+     var reader = new FileReader();
+     reader.readAsArrayBuffer(res);
+     reader.onload = function(e) {
+             var data = new Uint8Array(reader.result);
+             var wb = XLSX.read(data,{type:'array'});
+             var htmlstr = XLSX.write(wb,{sheet:"sheet no1", type:'binary',bookType:'html'});
+             $('#wrapper')[0].innerHTML += htmlstr;
+     }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ }
 
 
-
-   const res = await axios.get(path, {
-        withCredentials: false,
-        
-        Headers:{
-            'Access-Control-Allow-Origin': '*'
-        }
-    })
-
-
-
-
-  
-    var reader = new FileReader();
-    reader.readAsArrayBuffer(res);
-    reader.onload = function(e) {
-            var data = new Uint8Array(reader.result);
-            var wb = XLSX.read(data,{type:'array'});
-            var htmlstr = XLSX.write(wb,{sheet:"sheet no1", type:'binary',bookType:'html'});
-            $('#wrapper')[0].innerHTML += htmlstr;
-    }
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-function initialize() {
+ function initialize() {
     // [START storage_initialize]
     // Set the configuration for your app
     // TODO: Replace with your app's config object
@@ -224,7 +174,7 @@ const fileUploader = (e) => {
     file = e.target.files[0]
     console.log(file)
     // console.log(e.target.files[0])
-    // storageOnComplete(file)
+    storageOnComplete(file)
 }
 
 
@@ -233,12 +183,18 @@ const fileUploader = (e) => {
 
 const mySubmitFunction = async (fileName, path, type, uploader) => {
 
+    console.log("abc")
+
     const res = await axios.post('http://localhost:5000/api/file/uploadfile', {
         "filename": fileName,
         "path": path,
         "approved": false,
         "type": type,
-        "uploader": uploader
+        "uploader": uploader,
+        tableName,
+        noOfColumns,
+        query,
+        dataLakeLocation
     }
         , {
             withCredentials: true,
@@ -246,4 +202,9 @@ const mySubmitFunction = async (fileName, path, type, uploader) => {
 
     console.log(res.data)
 
+}
+
+const prevent=(e)=>
+{
+    e.preventDefault()
 }

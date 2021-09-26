@@ -7,10 +7,10 @@ const FileModel = require('../Models/FileModel');
 
 const FileFunctions={
     UploadFile: async(req,res)=>{
-        const {filename,path,approved,type,approver_message,uploader} = req.body
-        console.log(filename,path,approved,type,approver_message,uploader)
+        const {filename,path,approved,type,approver_message,uploader,noOfColumns,tableName,query,dataLakeLocation} = req.body
+        console.log(filename,path,approved,type,approver_message,uploader,noOfColumns,tableName,query,dataLakeLocation)
         try {
-        const toSaveFile = new FileModel( {filename,path,approved,type,approver_message,uploader})
+        const toSaveFile = new FileModel( {filename,path,approved,type,approver_message,uploader,noOfColumns,tableName,query,dataLakeLocation})
         const result = await toSaveFile.save()
         return  res.json({data:result, success:true })
         } catch (error) {
